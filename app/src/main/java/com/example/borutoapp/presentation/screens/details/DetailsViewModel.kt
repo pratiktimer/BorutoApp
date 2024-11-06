@@ -31,15 +31,15 @@ class DetailsViewModel @Inject constructor(
         }
     }
 
-    private val _uiEvent = MutableSharedFlow<UiEvent>()
-    val uiEvent: SharedFlow<UiEvent> = _uiEvent.asSharedFlow()
+    private val _uiEvent: MutableState<UiEvent?> = mutableStateOf(null)
+    val uiEvent: State<UiEvent?> = _uiEvent
 
     private val _colorPalette: MutableState<Map<String, String>> = mutableStateOf(mapOf())
     val colorPalette: State<Map<String, String>> = _colorPalette
 
     fun generateColorPalette() {
         viewModelScope.launch {
-            _uiEvent.emit(UiEvent.GenerateColorPalette)
+            _uiEvent.value = UiEvent.GenerateColorPalette
         }
     }
 
@@ -50,5 +50,5 @@ class DetailsViewModel @Inject constructor(
 }
 
 sealed class UiEvent {
-    object GenerateColorPalette : UiEvent()
+    data object GenerateColorPalette : UiEvent()
 }

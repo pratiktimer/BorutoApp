@@ -2,17 +2,16 @@ package com.example.borutoapp.presentation.screens.welcome
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,7 +31,6 @@ import com.example.borutoapp.ui.theme.*
 import com.example.borutoapp.util.Constants.LAST_ON_BOARDING_PAGE
 import com.example.borutoapp.util.Constants.ON_BOARDING_PAGE_COUNT
 
-@OptIn(ExperimentalFoundationApi::class)
 @ExperimentalAnimationApi
 @Composable
 fun WelcomeScreen(
@@ -50,7 +48,7 @@ fun WelcomeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colors.welcomeScreenBackgroundColor)
+            .background(color = MaterialTheme.colorScheme.welcomeScreenBackgroundColor)
     ) {
         HorizontalPager(
             modifier = Modifier.weight(10f),
@@ -65,8 +63,8 @@ fun WelcomeScreen(
                 .align(Alignment.CenterHorizontally),
             pagerState = pagerState,
             pageCount = pagerState.pageCount,
-            activeColor = MaterialTheme.colors.activeIndicatorColor,
-            inactiveColor = MaterialTheme.colors.inactiveIndicatorColor,
+            activeColor = MaterialTheme.colorScheme.activeIndicatorColor,
+            inactiveColor = MaterialTheme.colorScheme.inactiveIndicatorColor,
             indicatorWidth = PAGING_INDICATOR_WIDTH,
             spacing = PAGING_INDICATOR_SPACING
         )
@@ -100,8 +98,8 @@ fun PagerScreen(onBoardingPage: OnBoardingPage) {
             modifier = Modifier
                 .fillMaxWidth(),
             text = onBoardingPage.title,
-            color = MaterialTheme.colors.titleColor,
-            fontSize = MaterialTheme.typography.h4.fontSize,
+            color = MaterialTheme.colorScheme.titleColor,
+            fontSize = MaterialTheme.typography.titleMedium.fontSize,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         )
@@ -111,15 +109,14 @@ fun PagerScreen(onBoardingPage: OnBoardingPage) {
                 .padding(horizontal = EXTRA_LARGE_PADDING)
                 .padding(top = SMALL_PADDING),
             text = onBoardingPage.description,
-            color = MaterialTheme.colors.descriptionColor,
-            fontSize = MaterialTheme.typography.subtitle1.fontSize,
+            color = MaterialTheme.colorScheme.descriptionColor,
+            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
             fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Center
         )
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @ExperimentalAnimationApi
 @Composable
 fun FinishButton(
@@ -140,7 +137,7 @@ fun FinishButton(
             Button(
                 onClick = onClick,
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = MaterialTheme.colors.buttonBackgroundColor,
+                    containerColor = MaterialTheme.colorScheme.buttonBackgroundColor,
                     contentColor = Color.White
                 )
             ) {

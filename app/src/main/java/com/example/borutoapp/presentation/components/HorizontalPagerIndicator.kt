@@ -1,6 +1,5 @@
 package com.example.borutoapp.presentation.components
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,9 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.LocalContentColor
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -24,15 +21,14 @@ import androidx.compose.ui.unit.dp
 import kotlin.math.absoluteValue
 import kotlin.math.sign
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HorizontalPagerIndicator(
     pagerState: androidx.compose.foundation.pager.PagerState,
     pageCount: Int,
     modifier: Modifier = Modifier,
     pageIndexMapping: (Int) -> Int = { it },
-    activeColor: Color = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
-    inactiveColor: Color = activeColor.copy(ContentAlpha.disabled),
+    activeColor: Color = LocalContentColor.current,
+    inactiveColor: Color = activeColor.copy(0.38f),
     indicatorWidth: Dp = 8.dp,
     indicatorHeight: Dp = indicatorWidth,
     spacing: Dp = indicatorWidth,
@@ -67,8 +63,8 @@ private fun HorizontalPagerIndicator(
     pageCount: Int,
     modifier: Modifier = Modifier,
     pageIndexMapping: (Int) -> Int = { it },
-    activeColor: Color = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
-    inactiveColor: Color = activeColor.copy(ContentAlpha.disabled),
+    activeColor: Color = LocalContentColor.current,
+    inactiveColor: Color = activeColor.copy(0.38f),
     indicatorWidth: Dp = 8.dp,
     indicatorHeight: Dp = indicatorWidth,
     spacing: Dp = indicatorWidth,

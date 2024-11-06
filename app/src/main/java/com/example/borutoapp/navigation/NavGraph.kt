@@ -1,7 +1,6 @@
 package com.example.borutoapp.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -15,7 +14,6 @@ import com.example.borutoapp.presentation.screens.search.SearchScreen
 import com.example.borutoapp.presentation.screens.welcome.WelcomeScreen
 import com.example.borutoapp.util.Constants.DETAILS_ARGUMENT_KEY
 
-@ExperimentalMaterialApi
 @ExperimentalCoilApi
 @ExperimentalAnimationApi
 @Composable

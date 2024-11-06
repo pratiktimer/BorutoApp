@@ -6,10 +6,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,6 +38,7 @@ import com.example.borutoapp.util.Constants.BASE_URL
 @ExperimentalCoilApi
 @Composable
 fun ListContent(
+    padding: PaddingValues,
     heroes: LazyPagingItems<Hero>,
     navController: NavHostController
 ) {
@@ -46,6 +46,11 @@ fun ListContent(
 
     if (result) {
         LazyColumn(
+            modifier = Modifier
+                .padding(
+                    top = padding.calculateTopPadding(),
+                    bottom = padding.calculateBottomPadding()
+                ),
             contentPadding = PaddingValues(all = SMALL_PADDING),
             verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
         ) {
@@ -121,7 +126,7 @@ fun HeroItem(
             modifier = Modifier
                 .fillMaxHeight(0.4f)
                 .fillMaxWidth(),
-            color = Color.Black.copy(alpha = ContentAlpha.medium),
+            color = Color.Black.copy(alpha = 0.5f),
             shape = RoundedCornerShape(
                 bottomStart = LARGE_PADDING,
                 bottomEnd = LARGE_PADDING
@@ -134,16 +139,16 @@ fun HeroItem(
             ) {
                 Text(
                     text = hero.name,
-                    color = MaterialTheme.colors.topAppBarContentColor,
-                    fontSize = MaterialTheme.typography.h5.fontSize,
+                    color = MaterialTheme.colorScheme.topAppBarContentColor,
+                    fontSize = MaterialTheme.typography.titleLarge.fontSize,
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = hero.about,
-                    color = Color.White.copy(alpha = ContentAlpha.medium),
-                    fontSize = MaterialTheme.typography.subtitle1.fontSize,
+                    color = Color.White.copy(alpha = 0.5f),
+                    fontSize = MaterialTheme.typography.bodyMedium.fontSize,
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -158,7 +163,7 @@ fun HeroItem(
                     Text(
                         text = "(${hero.rating})",
                         textAlign = TextAlign.Center,
-                        color = Color.White.copy(alpha = ContentAlpha.medium)
+                        color = Color.White.copy(alpha = 0.5f)
                     )
                 }
             }

@@ -6,7 +6,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Surface
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -29,7 +29,7 @@ fun ShimmerEffect() {
 
 @Composable
 fun AnimatedShimmerItem() {
-    val transition = rememberInfiniteTransition()
+    val transition = rememberInfiniteTransition(label = "Infinite")
     val alphaAnim by transition.animateFloat(
         initialValue = 1f,
         targetValue = 0f,
@@ -39,7 +39,8 @@ fun AnimatedShimmerItem() {
                 easing = FastOutLinearInEasing
             ),
             repeatMode = RepeatMode.Reverse
-        ))
+        ), label = ""
+    )
     ShimmerItem(alpha = alphaAnim)
 }
 

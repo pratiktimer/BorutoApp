@@ -7,10 +7,9 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.paging.LoadState
 import androidx.compose.ui.Alignment
@@ -50,7 +49,7 @@ fun EmptyScreen(
 
     var startAnimation by remember { mutableStateOf(false) }
     val alphaAnim by animateFloatAsState(
-        targetValue = if (startAnimation) ContentAlpha.disabled else 0f,
+        targetValue = if (startAnimation) 0.38f else 0f,
         animationSpec = tween(
             durationMillis = 1000
         ),
@@ -69,7 +68,6 @@ fun EmptyScreen(
     )
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun EmptyContent(
     alphaAnim: Float,
@@ -79,14 +77,14 @@ fun EmptyContent(
     heroes: LazyPagingItems<Hero>? = null
 ) {
     var isRefreshing by remember { mutableStateOf(false) }
-    val refreshState = rememberPullRefreshState(
-        refreshing = isRefreshing,
-        onRefresh = {
-            isRefreshing = true
-            heroes?.refresh()
-            isRefreshing = false
-        }
-    )
+//    val refreshState = rememberPullRefreshState(
+//        refreshing = isRefreshing,
+//        onRefresh = {
+//            isRefreshing = true
+//            heroes?.refresh()
+//            isRefreshing = false
+//        }
+//    )
 
 //    SwipeRefresh(
 //        swipeEnabled = error != null,
@@ -99,15 +97,15 @@ fun EmptyContent(
 //    ) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .pullRefresh(state = refreshState, enabled = error != null),
+            .fillMaxSize(),
+//            .pullRefresh(state = refreshState, enabled = error != null),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        PullRefreshIndicator(
-            state = refreshState,
-            refreshing = isRefreshing
-        )
+//        PullRefreshIndicator(
+//            state = refreshState,
+//            refreshing = isRefreshing
+//        )
         Column(
             modifier = Modifier
                 .weight(1f)
@@ -131,7 +129,7 @@ fun EmptyContent(
                 color = if (isSystemInDarkTheme()) LightGray else DarkGray,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Medium,
-                fontSize = MaterialTheme.typography.subtitle1.fontSize
+                fontSize = MaterialTheme.typography.bodyMedium.fontSize
             )
         }
     }
@@ -156,7 +154,7 @@ fun parseErrorMessage(error: LoadState.Error): String {
 @Preview(showBackground = true)
 fun EmptyScreenPreview() {
     EmptyContent(
-        alphaAnim = ContentAlpha.disabled,
+        alphaAnim = 0.38f,
         icon = R.drawable.ic_network_error,
         message = "Internet Unavailable."
     )
@@ -166,7 +164,7 @@ fun EmptyScreenPreview() {
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 fun EmptyScreenDarkPreview() {
     EmptyContent(
-        alphaAnim = ContentAlpha.disabled,
+        alphaAnim = 0.38f,
         icon = R.drawable.ic_network_error,
         message = "Internet Unavailable."
     )

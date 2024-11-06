@@ -3,6 +3,7 @@ package com.example.borutoapp.presentation.screens.details
 import android.app.Activity
 import android.graphics.Color.parseColor
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,20 +15,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.BottomSheetScaffold
-import androidx.compose.material.BottomSheetScaffoldState
-import androidx.compose.material.BottomSheetValue.Collapsed
-import androidx.compose.material.BottomSheetValue.Expanded
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.rememberBottomSheetScaffoldState
-import androidx.compose.material.rememberBottomSheetState
+import androidx.compose.material3.BottomSheetDefaults
+import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.BottomSheetScaffoldState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SheetValue
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberBottomSheetScaffoldState
+import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
@@ -66,8 +66,8 @@ import com.example.borutoapp.util.Constants.ABOUT_TEXT_MAX_LINES
 import com.example.borutoapp.util.Constants.BASE_URL
 import com.example.borutoapp.util.Constants.MIN_BACKGROUND_IMAGE_HEIGHT
 
+@OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalCoilApi
-@ExperimentalMaterialApi
 @Composable
 fun DetailsContent(
     navController: NavHostController,
@@ -91,7 +91,7 @@ fun DetailsContent(
     }
 
     val scaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = rememberBottomSheetState(initialValue = Expanded)
+        bottomSheetState = rememberStandardBottomSheetState()
     )
 
     val currentSheetFraction = scaffoldState.currentSheetFraction
@@ -107,6 +107,19 @@ fun DetailsContent(
             topStart = radiusAnim,
             topEnd = radiusAnim
         ),
+        containerColor = Color(parseColor(darkVibrant)),
+        sheetDragHandle = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(parseColor(darkVibrant))),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                BottomSheetDefaults.DragHandle(
+                    color = Color(parseColor(vibrant))
+                )
+            }
+        },
         scaffoldState = scaffoldState,
         sheetPeekHeight = MIN_SHEET_HEIGHT,
         sheetContent = {
@@ -137,9 +150,9 @@ fun DetailsContent(
 @Composable
 fun BottomSheetContent(
     selectedHero: Hero,
-    infoBoxIconColor: Color = MaterialTheme.colors.primary,
-    sheetBackgroundColor: Color = MaterialTheme.colors.surface,
-    contentColor: Color = MaterialTheme.colors.titleColor
+    infoBoxIconColor: Color = MaterialTheme.colorScheme.primary,
+    sheetBackgroundColor: Color = MaterialTheme.colorScheme.surface,
+    contentColor: Color = MaterialTheme.colorScheme.titleColor
 ) {
     Column(
         modifier = Modifier
@@ -165,7 +178,7 @@ fun BottomSheetContent(
                     .weight(8f),
                 text = selectedHero.name,
                 color = contentColor,
-                fontSize = MaterialTheme.typography.h4.fontSize,
+                fontSize = MaterialTheme.typography.titleMedium.fontSize,
                 fontWeight = FontWeight.Bold
             )
         }
@@ -201,16 +214,16 @@ fun BottomSheetContent(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(R.string.about),
             color = contentColor,
-            fontSize = MaterialTheme.typography.subtitle1.fontSize,
+            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
             fontWeight = FontWeight.Bold
         )
         Text(
             modifier = Modifier
-                .alpha(ContentAlpha.medium)
+                .alpha(0.5f)
                 .padding(bottom = MEDIUM_PADDING),
             text = selectedHero.about,
             color = contentColor,
-            fontSize = MaterialTheme.typography.body1.fontSize,
+            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
             maxLines = ABOUT_TEXT_MAX_LINES
         )
         Row(
@@ -241,10 +254,14 @@ fun BottomSheetContent(
 fun BackgroundContent(
     heroImage: String,
     imageFraction: Float = 1f,
-    backgroundColor: Color = MaterialTheme.colors.surface,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
     onCloseClicked: () -> Unit
 ) {
     val imageUrl = remember { "$BASE_URL${heroImage}" }
+    val animatedImageSize by animateFloatAsState(
+        targetValue = imageFraction,
+        label = "Radius Animation"
+    )
 
     Box(
         modifier = Modifier
@@ -255,9 +272,10 @@ fun BackgroundContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(
-                    fraction = (imageFraction + MIN_BACKGROUND_IMAGE_HEIGHT)
+                    fraction = (animatedImageSize + MIN_BACKGROUND_IMAGE_HEIGHT)
                         .coerceAtMost(1.0f)
                 )
+
                 .align(Alignment.TopCenter),
             model = ImageRequest.Builder(LocalContext.current)
                 .data(data = imageUrl)
@@ -285,19 +303,18 @@ fun BackgroundContent(
     }
 }
 
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterial3Api::class)
 val BottomSheetScaffoldState.currentSheetFraction: Float
     get() {
-        val fraction = bottomSheetState.progress
         val targetValue = bottomSheetState.targetValue
         val currentValue = bottomSheetState.currentValue
 
         return when {
-            currentValue == Collapsed && targetValue == Collapsed -> 1f
-            currentValue == Expanded && targetValue == Expanded -> 0f
-            currentValue == Collapsed && targetValue == Expanded -> 1f - fraction
-            currentValue == Expanded && targetValue == Collapsed -> 0f + fraction
-            else -> fraction
+            currentValue == SheetValue.Hidden && targetValue == SheetValue.Hidden -> 1f
+            currentValue == SheetValue.Expanded && targetValue == SheetValue.Expanded -> 0f
+            currentValue == SheetValue.Hidden && targetValue == SheetValue.Expanded -> 1f
+            currentValue == SheetValue.Expanded && targetValue == SheetValue.Hidden -> 0f
+            else -> 1f
         }
     }
 

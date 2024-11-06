@@ -1,6 +1,6 @@
 package com.example.borutoapp.presentation.screens.home
 
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
@@ -10,16 +10,19 @@ import com.example.borutoapp.R
 import com.example.borutoapp.ui.theme.topAppBarBackgroundColor
 import com.example.borutoapp.ui.theme.topAppBarContentColor
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeTopBar(onSearchClicked: () -> Unit) {
     TopAppBar(
         title = {
             Text(
                 text = "Explore",
-                color = MaterialTheme.colors.topAppBarContentColor
+                color = MaterialTheme.colorScheme.topAppBarContentColor
             )
         },
-        backgroundColor = MaterialTheme.colors.topAppBarBackgroundColor,
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.topAppBarBackgroundColor
+        ),
         actions = {
             IconButton(onClick = onSearchClicked) {
                 Icon(

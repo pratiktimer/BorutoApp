@@ -1,9 +1,8 @@
 package com.example.borutoapp.presentation.screens.search
 
-import android.annotation.SuppressLint
 import android.app.Activity
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
@@ -16,7 +15,6 @@ import coil.annotation.ExperimentalCoilApi
 import com.example.borutoapp.presentation.common.ListContent
 import com.example.borutoapp.ui.theme.statusBarColor
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalCoilApi
 @Composable
 fun SearchScreen(
@@ -26,7 +24,7 @@ fun SearchScreen(
     val activity = LocalContext.current as Activity
     val searchQuery by searchViewModel.searchQuery
     val heroes = searchViewModel.searchedHeroes.collectAsLazyPagingItems()
-    val systemBarColor = MaterialTheme.colors.statusBarColor.toArgb()
+    val systemBarColor = MaterialTheme.colorScheme.statusBarColor.toArgb()
 
     SideEffect { activity.window.statusBarColor = systemBarColor }
 
@@ -45,8 +43,12 @@ fun SearchScreen(
                 }
             )
         },
-        content = {
-            ListContent(heroes = heroes, navController = navController)
+        content = { padding ->
+            ListContent(
+                padding = padding,
+                heroes = heroes,
+                navController = navController
+            )
         }
     )
 }

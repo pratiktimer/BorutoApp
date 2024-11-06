@@ -1,9 +1,8 @@
 package com.example.borutoapp.presentation.screens.home
 
-import android.annotation.SuppressLint
 import android.app.Activity
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
@@ -15,8 +14,8 @@ import coil.annotation.ExperimentalCoilApi
 import com.example.borutoapp.navigation.Screen
 import com.example.borutoapp.presentation.common.ListContent
 import com.example.borutoapp.ui.theme.statusBarColor
+import com.example.borutoapp.ui.theme.welcomeScreenBackgroundColor
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalCoilApi
 @Composable
 fun HomeScreen(
@@ -25,7 +24,7 @@ fun HomeScreen(
 ) {
     val activity = LocalContext.current as Activity
     val allHeroes = homeViewModel.getAllHeroes.collectAsLazyPagingItems()
-    val systemBarColor = MaterialTheme.colors.statusBarColor.toArgb()
+    val systemBarColor = MaterialTheme.colorScheme.statusBarColor.toArgb()
 
     SideEffect { activity.window.statusBarColor = systemBarColor }
 
@@ -37,8 +36,10 @@ fun HomeScreen(
                 }
             )
         },
-        content = {
+        containerColor = MaterialTheme.colorScheme.welcomeScreenBackgroundColor,
+        content = { padding ->
             ListContent(
+                padding = padding,
                 heroes = allHeroes,
                 navController = navController
             )
