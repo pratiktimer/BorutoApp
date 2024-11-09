@@ -139,7 +139,7 @@ fun HeroItem(
             ) {
                 Text(
                     text = hero.name,
-                    color = MaterialTheme.colorScheme.topAppBarContentColor,
+                    color = topAppBarContentColor,
                     fontSize = MaterialTheme.typography.titleLarge.fontSize,
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,

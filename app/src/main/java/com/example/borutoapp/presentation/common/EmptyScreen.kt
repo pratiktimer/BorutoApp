@@ -7,9 +7,12 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.*
 import androidx.paging.LoadState
 import androidx.compose.ui.Alignment
@@ -27,6 +30,7 @@ import com.example.borutoapp.ui.theme.DarkGray
 import com.example.borutoapp.ui.theme.LightGray
 import com.example.borutoapp.ui.theme.NETWORK_ERROR_ICON_HEIGHT
 import com.example.borutoapp.ui.theme.SMALL_PADDING
+import kotlinx.coroutines.launch
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 
@@ -64,76 +68,67 @@ fun EmptyScreen(
         icon = icon,
         message = message,
         heroes = heroes,
-        error = error
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmptyContent(
     alphaAnim: Float,
     icon: Int,
     message: String,
-    error: LoadState.Error? = null,
     heroes: LazyPagingItems<Hero>? = null
 ) {
+    val scope = rememberCoroutineScope()
+    val refreshState = rememberPullToRefreshState()
     var isRefreshing by remember { mutableStateOf(false) }
-//    val refreshState = rememberPullRefreshState(
-//        refreshing = isRefreshing,
-//        onRefresh = {
-//            isRefreshing = true
-//            heroes?.refresh()
-//            isRefreshing = false
-//        }
-//    )
 
-//    SwipeRefresh(
-//        swipeEnabled = error != null,
-//        state = rememberSwipeRefreshState(isRefreshing),
-//        onRefresh = {
-//            isRefreshing = true
-//            heroes?.refresh()
-//            isRefreshing = false
-//        }
-//    ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize(),
-//            .pullRefresh(state = refreshState, enabled = error != null),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
+    PullToRefreshBox(
+        state = refreshState,
+        isRefreshing = isRefreshing,
+        onRefresh = {
+            isRefreshing = true
+            heroes?.refresh()
+            isRefreshing = false
+            scope.launch {
+                refreshState.animateToHidden()
+            }
+        }
     ) {
-//        PullRefreshIndicator(
-//            state = refreshState,
-//            refreshing = isRefreshing
-//        )
         Column(
             modifier = Modifier
-                .weight(1f)
-                .verticalScroll(rememberScrollState()),
+                .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Top
         ) {
-            Icon(
+            Column(
                 modifier = Modifier
-                    .size(NETWORK_ERROR_ICON_HEIGHT)
-                    .alpha(alpha = alphaAnim),
-                painter = painterResource(id = icon),
-                contentDescription = stringResource(R.string.network_error_icon),
-                tint = if (isSystemInDarkTheme()) LightGray else DarkGray
-            )
-            Text(
-                modifier = Modifier
-                    .padding(top = SMALL_PADDING)
-                    .alpha(alpha = alphaAnim),
-                text = message,
-                color = if (isSystemInDarkTheme()) LightGray else DarkGray,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Medium,
-                fontSize = MaterialTheme.typography.bodyMedium.fontSize
-            )
+                    .weight(1f)
+                    .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Icon(
+                    modifier = Modifier
+                        .size(NETWORK_ERROR_ICON_HEIGHT)
+                        .alpha(alpha = alphaAnim),
+                    painter = painterResource(id = icon),
+                    contentDescription = stringResource(R.string.network_error_icon),
+                    tint = if (isSystemInDarkTheme()) LightGray else DarkGray
+                )
+                Text(
+                    modifier = Modifier
+                        .padding(top = SMALL_PADDING)
+                        .alpha(alpha = alphaAnim),
+                    text = message,
+                    color = if (isSystemInDarkTheme()) LightGray else DarkGray,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = MaterialTheme.typography.bodyMedium.fontSize
+                )
+            }
         }
     }
-//    }
 }
 
 fun parseErrorMessage(error: LoadState.Error): String {
@@ -141,9 +136,11 @@ fun parseErrorMessage(error: LoadState.Error): String {
         is SocketTimeoutException -> {
             "Server Unavailable."
         }
+
         is ConnectException -> {
             "Internet Unavailable."
         }
+
         else -> {
             "Unknown Error."
         }

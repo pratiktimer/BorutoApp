@@ -65,7 +65,7 @@ fun InfoBoxPreview() {
         iconColor = MaterialTheme.colorScheme.primary,
         bigText = "92",
         smallText = "Power",
-        textColor = MaterialTheme.colorScheme.titleColor
+        textColor = titleColor
     )
 }
 
@@ -77,6 +77,6 @@ fun InfoBoxDarkPreview() {
         iconColor = MaterialTheme.colorScheme.primary,
         bigText = "92",
         smallText = "Power",
-        textColor = MaterialTheme.colorScheme.titleColor
+        textColor = titleColor
     )
 }

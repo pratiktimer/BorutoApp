@@ -48,7 +48,7 @@ fun WelcomeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.welcomeScreenBackgroundColor)
+            .background(color = welcomeScreenBackgroundColor)
     ) {
         HorizontalPager(
             modifier = Modifier.weight(10f),
@@ -63,8 +63,8 @@ fun WelcomeScreen(
                 .align(Alignment.CenterHorizontally),
             pagerState = pagerState,
             pageCount = pagerState.pageCount,
-            activeColor = MaterialTheme.colorScheme.activeIndicatorColor,
-            inactiveColor = MaterialTheme.colorScheme.inactiveIndicatorColor,
+            activeColor = activeIndicatorColor,
+            inactiveColor = inactiveIndicatorColor,
             indicatorWidth = PAGING_INDICATOR_WIDTH,
             spacing = PAGING_INDICATOR_SPACING
         )
@@ -98,8 +98,8 @@ fun PagerScreen(onBoardingPage: OnBoardingPage) {
             modifier = Modifier
                 .fillMaxWidth(),
             text = onBoardingPage.title,
-            color = MaterialTheme.colorScheme.titleColor,
-            fontSize = MaterialTheme.typography.titleMedium.fontSize,
+            color = titleColor,
+            fontSize = MaterialTheme.typography.titleLarge.fontSize,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         )
@@ -109,7 +109,7 @@ fun PagerScreen(onBoardingPage: OnBoardingPage) {
                 .padding(horizontal = EXTRA_LARGE_PADDING)
                 .padding(top = SMALL_PADDING),
             text = onBoardingPage.description,
-            color = MaterialTheme.colorScheme.descriptionColor,
+            color = descriptionColor,
             fontSize = MaterialTheme.typography.bodyMedium.fontSize,
             fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Center
@@ -137,7 +137,7 @@ fun FinishButton(
             Button(
                 onClick = onClick,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.buttonBackgroundColor,
+                    containerColor = buttonBackgroundColor,
                     contentColor = Color.White
                 )
             ) {

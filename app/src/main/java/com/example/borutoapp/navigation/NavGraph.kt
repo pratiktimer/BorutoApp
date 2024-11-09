@@ -17,7 +17,10 @@ import com.example.borutoapp.util.Constants.DETAILS_ARGUMENT_KEY
 @ExperimentalCoilApi
 @ExperimentalAnimationApi
 @Composable
-fun SetupNavGraph(navController: NavHostController, startDestination: String) {
+fun SetupNavGraph(
+    navController: NavHostController,
+    startDestination: String
+) {
     NavHost(
         navController = navController,
         startDestination = startDestination

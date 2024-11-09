@@ -45,7 +45,7 @@ fun OrderedListPreview() {
     OrderedList(
         title = "Family",
         items = listOf("Minato", "Kushina"),
-        textColor = MaterialTheme.colorScheme.titleColor
+        textColor = titleColor
     )
 }
 
@@ -55,6 +55,6 @@ fun OrderedListDarkPreview() {
     OrderedList(
         title = "Family",
         items = listOf("Minato", "Kushina"),
-        textColor = MaterialTheme.colorScheme.titleColor
+        textColor = titleColor
     )
 }

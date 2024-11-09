@@ -52,7 +52,7 @@ fun SearchWidget(
             .semantics {
                 contentDescription = "SearchWidget"
             },
-        color = MaterialTheme.colorScheme.topAppBarBackgroundColor
+        color = topAppBarBackgroundColor
     ) {
         TextField(
             modifier = Modifier
@@ -71,7 +71,7 @@ fun SearchWidget(
                 )
             },
             textStyle = TextStyle(
-                color = MaterialTheme.colorScheme.topAppBarContentColor
+                color = topAppBarContentColor
             ),
             singleLine = true,
             leadingIcon = {
@@ -83,7 +83,7 @@ fun SearchWidget(
                     Icon(
                         imageVector = Icons.Default.Search,
                         contentDescription = stringResource(R.string.search_icon),
-                        tint = MaterialTheme.colorScheme.topAppBarContentColor
+                        tint = topAppBarContentColor
                     )
                 }
             },
@@ -104,7 +104,7 @@ fun SearchWidget(
                     Icon(
                         imageVector = Icons.Default.Close,
                         contentDescription = stringResource(R.string.close_icon),
-                        tint = MaterialTheme.colorScheme.topAppBarContentColor
+                        tint = topAppBarContentColor
                     )
                 }
             },
@@ -119,7 +119,7 @@ fun SearchWidget(
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color.Transparent,
                 unfocusedContainerColor = Color.Transparent,
-                cursorColor = MaterialTheme.colorScheme.topAppBarContentColor
+                cursorColor = topAppBarContentColor
             )
         )
     }

@@ -152,7 +152,7 @@ fun BottomSheetContent(
     selectedHero: Hero,
     infoBoxIconColor: Color = MaterialTheme.colorScheme.primary,
     sheetBackgroundColor: Color = MaterialTheme.colorScheme.surface,
-    contentColor: Color = MaterialTheme.colorScheme.titleColor
+    contentColor: Color = titleColor
 ) {
     Column(
         modifier = Modifier

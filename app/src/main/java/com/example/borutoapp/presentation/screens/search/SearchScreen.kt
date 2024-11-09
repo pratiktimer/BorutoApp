@@ -1,7 +1,6 @@
 package com.example.borutoapp.presentation.screens.search
 
 import android.app.Activity
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -24,7 +23,7 @@ fun SearchScreen(
     val activity = LocalContext.current as Activity
     val searchQuery by searchViewModel.searchQuery
     val heroes = searchViewModel.searchedHeroes.collectAsLazyPagingItems()
-    val systemBarColor = MaterialTheme.colorScheme.statusBarColor.toArgb()
+    val systemBarColor = statusBarColor.toArgb()
 
     SideEffect { activity.window.statusBarColor = systemBarColor }
 

@@ -1,7 +1,6 @@
 package com.example.borutoapp.presentation.screens.home
 
 import android.app.Activity
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -24,7 +23,7 @@ fun HomeScreen(
 ) {
     val activity = LocalContext.current as Activity
     val allHeroes = homeViewModel.getAllHeroes.collectAsLazyPagingItems()
-    val systemBarColor = MaterialTheme.colorScheme.statusBarColor.toArgb()
+    val systemBarColor = statusBarColor.toArgb()
 
     SideEffect { activity.window.statusBarColor = systemBarColor }
 
@@ -36,7 +35,7 @@ fun HomeScreen(
                 }
             )
         },
-        containerColor = MaterialTheme.colorScheme.welcomeScreenBackgroundColor,
+        containerColor = welcomeScreenBackgroundColor,
         content = { padding ->
             ListContent(
                 padding = padding,

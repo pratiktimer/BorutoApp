@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavHostController
@@ -15,6 +18,7 @@ import com.example.borutoapp.navigation.SetupNavGraph
 import com.example.borutoapp.ui.theme.BorutoAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,11 +32,20 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var useCases: UseCases
 
-    private var completed = false
+    private var completed by mutableStateOf(false)
+    private var screenOpened by mutableStateOf(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        installSplashScreen()
+        lifecycleScope.launch(Dispatchers.IO) {
+            useCases.readOnBoardingUseCase().collect {
+                completed = it
+                // Give time to UI to reflect the change in the startDestination
+                delay(1000)
+                screenOpened = true
+            }
+        }
+        installSplashScreen().setKeepOnScreenCondition { !screenOpened }
         setContent {
             BorutoAppTheme {
                 navController = rememberNavController()
@@ -40,12 +53,6 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     startDestination = if (completed) Screen.Home.route else Screen.Welcome.route
                 )
-            }
-        }
-
-        lifecycleScope.launch(Dispatchers.IO) {
-            useCases.readOnBoardingUseCase().collect {
-                completed = it
             }
         }
     }
