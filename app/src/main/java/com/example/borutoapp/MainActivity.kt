@@ -22,38 +22,38 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@ExperimentalCoilApi
-@ExperimentalAnimationApi
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
-
-    private lateinit var navController: NavHostController
-
-    @Inject
-    lateinit var useCases: UseCases
-
-    private var completed by mutableStateOf(false)
-    private var screenOpened by mutableStateOf(false)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        lifecycleScope.launch(Dispatchers.IO) {
-            useCases.readOnBoardingUseCase().collect {
-                completed = it
-                // Give time to UI to reflect the change in the startDestination
-                delay(1000)
-                screenOpened = true
-            }
-        }
-        installSplashScreen().setKeepOnScreenCondition { !screenOpened }
-        setContent {
-            BorutoAppTheme {
-                navController = rememberNavController()
-                SetupNavGraph(
-                    navController = navController,
-                    startDestination = if (completed) Screen.Home.route else Screen.Welcome.route
-                )
-            }
-        }
-    }
-}
+//@ExperimentalCoilApi
+//@ExperimentalAnimationApi
+//@AndroidEntryPoint
+//class MainActivity : ComponentActivity() {
+//
+//    private lateinit var navController: NavHostController
+//
+//    @Inject
+//    lateinit var useCases: UseCases
+//
+//    private var completed by mutableStateOf(false)
+//    private var screenOpened by mutableStateOf(false)
+//
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            useCases.readOnBoardingUseCase().collect {
+//                completed = it
+//                // Give time to UI to reflect the change in the startDestination
+//                delay(1000)
+//                screenOpened = true
+//            }
+//        }
+//        installSplashScreen().setKeepOnScreenCondition { !screenOpened }
+//        setContent {
+//            BorutoAppTheme {
+//                navController = rememberNavController()
+//                SetupNavGraph(
+//                    navController = navController,
+//                    startDestination = if (completed) Screen.Home.route else Screen.Welcome.route
+//                )
+//            }
+//        }
+//    }
+//}

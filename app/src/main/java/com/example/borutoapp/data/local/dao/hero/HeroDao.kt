@@ -1,11 +1,11 @@
-package com.example.borutoapp.data.local.dao
+package com.example.borutoapp.data.local.dao.hero
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.borutoapp.domain.model.Hero
+import com.example.borutoapp.domain.model.hero.Hero
 
 @Dao
 interface HeroDao {

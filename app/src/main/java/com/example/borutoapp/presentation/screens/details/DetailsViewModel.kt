@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.borutoapp.domain.model.Hero
+import com.example.borutoapp.domain.model.hero.Hero
 import com.example.borutoapp.domain.use_cases.UseCases
 import com.example.borutoapp.util.Constants.DETAILS_ARGUMENT_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel

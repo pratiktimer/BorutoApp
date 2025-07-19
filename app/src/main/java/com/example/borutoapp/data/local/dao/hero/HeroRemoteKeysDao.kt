@@ -1,10 +1,10 @@
-package com.example.borutoapp.data.local.dao
+package com.example.borutoapp.data.local.dao.hero
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.borutoapp.domain.model.HeroRemoteKeys
+import com.example.borutoapp.domain.model.hero.HeroRemoteKeys
 
 @Dao
 interface HeroRemoteKeysDao {
