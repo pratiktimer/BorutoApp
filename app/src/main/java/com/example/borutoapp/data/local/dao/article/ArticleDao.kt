@@ -23,4 +23,6 @@ interface ArticleDao {
     @Query("DELETE FROM article_table")
     suspend fun deleteAllArticles()
 
+    @Query("SELECT COUNT(*) FROM article_table")
+    suspend fun getArticlesCount(): Int
 }

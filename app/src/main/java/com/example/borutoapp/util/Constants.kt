@@ -18,7 +18,7 @@ object Constants {
     const val ON_BOARDING_PAGE_COUNT = 3
     const val LAST_ON_BOARDING_PAGE = 2
 
-    const val ITEMS_PER_PAGE_ARTICLE = 5
+
     const val ITEMS_PER_PAGE = 3
     const val ABOUT_TEXT_MAX_LINES = 7
 

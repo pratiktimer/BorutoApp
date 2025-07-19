@@ -14,7 +14,6 @@ import com.example.borutoapp.domain.model.article.Article
 import com.example.borutoapp.domain.model.hero.Hero
 import com.example.borutoapp.domain.repository.RemoteDataSource
 import com.example.borutoapp.util.Constants.ITEMS_PER_PAGE
-import com.example.borutoapp.util.Constants.ITEMS_PER_PAGE_ARTICLE
 import kotlinx.coroutines.flow.Flow
 
 @ExperimentalPagingApi
@@ -50,7 +49,12 @@ class RemoteDataSourceImpl(
     override fun getAllArticle(): Flow<PagingData<Article>> {
         val pagingSourceFactory = { articleDao.getAllArticles() }
         return Pager(
-            config = PagingConfig(pageSize = ITEMS_PER_PAGE_ARTICLE),
+            config = PagingConfig(
+                pageSize = ITEMS_PER_PAGE,
+                prefetchDistance = 2,
+                initialLoadSize = ITEMS_PER_PAGE * 2,
+                enablePlaceholders = false
+            ),
             remoteMediator = ArticleRemoteMediator(
                 borutoApi = borutoApi,
                 borutoDatabase = borutoDatabase
@@ -61,7 +65,7 @@ class RemoteDataSourceImpl(
 
     override fun searchArticles(query: String): Flow<PagingData<Article>> {
         return Pager(
-            config = PagingConfig(pageSize = ITEMS_PER_PAGE_ARTICLE),
+            config = PagingConfig(pageSize = ITEMS_PER_PAGE),
             pagingSourceFactory = {
                 SearchArticlesSource(borutoApi = borutoApi, query = query)
             }

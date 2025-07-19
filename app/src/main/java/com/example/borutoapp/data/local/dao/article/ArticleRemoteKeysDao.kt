@@ -18,5 +18,10 @@ interface ArticleRemoteKeysDao {
 
     @Query("DELETE FROM article_remote_keys_table")
     suspend fun deleteAllRemoteKeys()
+    @Query("SELECT * FROM article_remote_keys_table")
+    suspend fun getAllKeys(): List<ArticleRemoteKeys>
+
+    @Query("SELECT COUNT(*) FROM article_table")
+    suspend fun getAllArticlesCount(): Int
 
 }

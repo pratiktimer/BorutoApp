@@ -1,11 +1,13 @@
 package com.example.newsapp.presentation.screens.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,18 +16,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
@@ -42,6 +49,9 @@ import com.example.borutoapp.ui.theme.LARGE_PADDING
 import com.example.borutoapp.ui.theme.MEDIUM_PADDING
 import com.example.borutoapp.ui.theme.SMALL_PADDING
 import com.example.borutoapp.ui.theme.topAppBarContentColor
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @ExperimentalCoilApi
 @Composable
@@ -63,16 +73,40 @@ fun NewsListContent(
             verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
         ) {
             items(
-                items = heroes.itemSnapshotList.items,
-                key = { hero ->
-                    hero.id
+                count = heroes.itemCount,
+                key = { index -> heroes[index]?.id ?: index }
+            ) { index ->
+                val article = heroes[index]
+                if (article != null) {
+                    ArticleCard(
+                        article = article,
+                        onClick = {
+                            // navController.navigate("articleDetail/${article.id}")
+                        }
+                    )
                 }
-            ) { hero ->
-                NewsHeroItem(hero = hero, navController = navController)
+            }
+
+            // ✅ Add Load State UI (Optional)
+            heroes.apply {
+                when {
+                    loadState.append is LoadState.Loading -> {
+                        item { CircularProgressIndicator(modifier = Modifier.fillMaxWidth()) }
+                    }
+                    loadState.append is LoadState.Error -> {
+                        item {
+                            Text(
+                                "Error loading more. Pull to retry.",
+                                color = Color.Red
+                            )
+                        }
+                    }
+                }
             }
         }
     }
 }
+
 
 @Composable
 fun handlePagingResult(
@@ -106,69 +140,81 @@ fun handlePagingResult(
     }
 }
 
-@ExperimentalCoilApi
 @Composable
-fun NewsHeroItem(
-    hero: Article,
-    navController: NavHostController
-) {
-    Box(
+fun ArticleCard(article: Article, onClick: () -> Unit) {
+    Card(
         modifier = Modifier
-            .height(ARTICLE_ITEM_HEIGHT)
-            .clickable {
-                navController.navigate(Screen.Details.passHeroId(heroId = hero.id))
-            },
-
+            .fillMaxWidth()
+            .clickable { onClick() },
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(6.dp)
     ) {
-        Surface(
+        Column(
             modifier = Modifier
-                .fillMaxSize(),
-            shape = RoundedCornerShape(
-                topStart = LARGE_PADDING,
-                topEnd = LARGE_PADDING,
-                bottomStart = LARGE_PADDING,
-                bottomEnd = LARGE_PADDING
-            )
+                .background(Color.White)
+                .padding(12.dp)
         ) {
-            Row() {
+            article.urlToImage?.let {
                 AsyncImage(
-                    modifier = Modifier.fillMaxHeight(1f)
-                        .fillMaxWidth(0.4f),
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(data = hero.urlToImage)
-                        .placeholder(drawableResId = R.drawable.ic_placeholder)
-                        .error(drawableResId = R.drawable.ic_placeholder)
-                        .build(),
-                    contentDescription = stringResource(id = R.string.hero_image),
+                    model = it,
+                    contentDescription = article.title,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(180.dp)
+                        .clip(RoundedCornerShape(10.dp)),
                     contentScale = ContentScale.Crop
                 )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(all = MEDIUM_PADDING)
-                ) {
-                    Text(
-                        text = hero.title,
-                        fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                        fontWeight = FontWeight.Bold,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    hero.description?.let {
-                        Text(
-                            text = it,
-                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
+            Text(
+                text = article.title,
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
 
-                }
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(
+                text = article.description ?: "",
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.Gray,
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            Spacer(modifier = Modifier.height(6.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = article.source.name,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color(0xFF757575)
+                )
+                Text(
+                    text = formatDate(article.publishedAt),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color(0xFF757575)
+                )
             }
         }
     }
 }
 
+fun formatDate(dateString: String): String {
+    return try {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+        val date = inputFormat.parse(dateString)
+        outputFormat.format(date ?: Date())
+    } catch (e: Exception) {
+        dateString
+    }
+}
 //@ExperimentalCoilApi
 //@Composable
 //@Preview
