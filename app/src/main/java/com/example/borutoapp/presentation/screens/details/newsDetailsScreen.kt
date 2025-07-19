@@ -12,6 +12,7 @@ import com.example.borutoapp.util.Constants.BASE_URL
 import com.example.borutoapp.util.PaletteGenerator.convertImageUrlToBitmap
 import com.example.borutoapp.util.PaletteGenerator.extractColorsFromBitmap
 
+
 @ExperimentalCoilApi
 @Composable
 fun DetailsScreen(

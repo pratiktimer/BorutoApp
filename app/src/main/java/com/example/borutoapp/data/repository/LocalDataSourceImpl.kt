@@ -9,11 +9,13 @@ class LocalDataSourceImpl(borutoDatabase: BorutoDatabase): LocalDataSource {
 
     private val heroDao = borutoDatabase.heroDao()
 
+    private val articleDao = borutoDatabase.articleDao()
+
     override suspend fun getSelectedHero(heroId: Int): Hero {
         return heroDao.getSelectedHero(heroId = heroId)
     }
 
     override suspend fun getSelectedArticle(heroId: Int): Article {
-        TODO("Not yet implemented")
+        return articleDao.getSelectedArticle(heroId = heroId)
     }
 }

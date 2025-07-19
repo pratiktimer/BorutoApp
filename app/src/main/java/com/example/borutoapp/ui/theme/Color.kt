@@ -4,11 +4,15 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
-val Purple700 = Color(0xFF3700B3)
+val Purple200 = Color(0xFFF8E4D8)  // Light warm tone
+val Purple500 = Color(0xFFEDD0BC)  // Primary news tone (as you gave)
+val Purple700 = Color(0xFFC89F7F)  // Darker accent for contrast
+var Orange = Color (0xFFED7014)
+//val Purple200 = Color(0xFFBB86FC)
+//val Purple500 = Color(0xFF6200EE)
+//val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
-val News500 = Color(0xFFedd0bc)
+
 
 val LightGray = Color(0xFFD8D8D8)
 val DarkGray = Color(0xFF2A2A2A)
@@ -55,7 +59,11 @@ val topAppBarBackgroundColor: Color
     @Composable
     get() = if (isSystemInDarkTheme()) Color.Black else Purple500
 
-val newsBackgroundColor: Color
+val orangeColor: Color
     @Composable
-    get() = if (isSystemInDarkTheme()) Color.Black else News500
+    get() = if (isSystemInDarkTheme())Orange else Orange
+
+//val newsBackgroundColor: Color
+//    @Composable
+//    get() = if (isSystemInDarkTheme()) Color.Black else Purple500
 

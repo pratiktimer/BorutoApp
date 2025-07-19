@@ -1,5 +1,6 @@
 package com.example.newsapp.presentation.screens.home
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -48,6 +49,7 @@ import com.example.borutoapp.ui.theme.HERO_ITEM_HEIGHT
 import com.example.borutoapp.ui.theme.LARGE_PADDING
 import com.example.borutoapp.ui.theme.MEDIUM_PADDING
 import com.example.borutoapp.ui.theme.SMALL_PADDING
+import com.example.borutoapp.ui.theme.topAppBarBackgroundColor
 import com.example.borutoapp.ui.theme.topAppBarContentColor
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -81,7 +83,7 @@ fun NewsListContent(
                     ArticleCard(
                         article = article,
                         onClick = {
-                            // navController.navigate("articleDetail/${article.id}")
+                             navController.navigate("details_screen/${article.id}")
                         }
                     )
                 }
@@ -143,15 +145,15 @@ fun handlePagingResult(
 @Composable
 fun ArticleCard(article: Article, onClick: () -> Unit) {
     Card(
+        border = BorderStroke(2.dp, Color.Black),
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() },
-        shape = RoundedCornerShape(12.dp),
         elevation = CardDefaults.cardElevation(6.dp)
     ) {
         Column(
             modifier = Modifier
-                .background(Color.White)
+                .background(topAppBarBackgroundColor)
                 .padding(12.dp)
         ) {
             article.urlToImage?.let {
@@ -160,8 +162,8 @@ fun ArticleCard(article: Article, onClick: () -> Unit) {
                     contentDescription = article.title,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(180.dp)
-                        .clip(RoundedCornerShape(10.dp)),
+                        .height(150.dp),
+                       // .clip(RoundedCornerShape(10.dp)),
                     contentScale = ContentScale.Crop
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -170,7 +172,7 @@ fun ArticleCard(article: Article, onClick: () -> Unit) {
             Text(
                 text = article.title,
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                maxLines = 2,
+                maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
 
@@ -180,7 +182,7 @@ fun ArticleCard(article: Article, onClick: () -> Unit) {
                 text = article.description ?: "",
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.Gray,
-                maxLines = 3,
+                maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
 

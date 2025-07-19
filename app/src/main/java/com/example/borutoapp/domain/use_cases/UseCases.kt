@@ -2,6 +2,7 @@ package com.example.borutoapp.domain.use_cases
 
 import com.example.borutoapp.domain.use_cases.get_all_articles.GetAllArticlesUseCase
 import com.example.borutoapp.domain.use_cases.get_all_heroes.GetAllHeroesUseCase
+import com.example.borutoapp.domain.use_cases.get_selected_article.GetSelectedArticleUseCase
 import com.example.borutoapp.domain.use_cases.get_selected_hero.GetSelectedHeroUseCase
 import com.example.borutoapp.domain.use_cases.read_onboarding.ReadOnBoardingUseCase
 import com.example.borutoapp.domain.use_cases.save_onboarding.SaveOnBoardingUseCase
@@ -17,5 +18,6 @@ data class UseCases(
     val getSelectedHeroUseCase: GetSelectedHeroUseCase,
     val getAllArticlesUseCase: GetAllArticlesUseCase,
     val searchHeroUseCase: SearchHeroesUseCase,
+    val getSelectedArticleUseCase : GetSelectedArticleUseCase
 
 )
