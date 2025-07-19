@@ -1,7 +1,7 @@
 package com.example.borutoapp.data.remote
 
 import com.example.borutoapp.domain.model.ApiResponse
-import com.example.borutoapp.domain.model.hero.Hero
+import com.example.borutoapp.domain.model.Hero
 import java.io.IOException
 
 class FakeBorutoApi2 : BorutoApi {
@@ -416,7 +416,7 @@ class FakeBorutoApi2 : BorutoApi {
             message = "ok",
             prevPage = calculate(page = page)["prevPage"],
             nextPage = calculate(page = page)["nextPage"],
-            data = heroes[page]!!
+            heroes = heroes[page]!!
         )
     }
 

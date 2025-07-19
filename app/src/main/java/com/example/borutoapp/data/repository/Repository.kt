@@ -1,8 +1,7 @@
 package com.example.borutoapp.data.repository
 
 import androidx.paging.PagingData
-import com.example.borutoapp.domain.model.article.Article
-import com.example.borutoapp.domain.model.hero.Hero
+import com.example.borutoapp.domain.model.Hero
 import com.example.borutoapp.domain.repository.DataStoreOperations
 import com.example.borutoapp.domain.repository.LocalDataSource
 import com.example.borutoapp.domain.repository.RemoteDataSource
@@ -33,18 +32,6 @@ class Repository @Inject constructor(
 
     fun readOnBoardingState(): Flow<Boolean> {
         return dataStore.readOnBoardingState()
-    }
-
-    fun getAllArticles(): Flow<PagingData<Article>> {
-        return remote.getAllArticle()
-    }
-
-    fun searchArticles(query: String): Flow<PagingData<Article>> {
-        return remote.searchArticles(query = query)
-    }
-
-    suspend fun getSelectedArticle(heroId: Int): Article {
-        return local.getSelectedArticle(heroId = heroId)
     }
 
 }

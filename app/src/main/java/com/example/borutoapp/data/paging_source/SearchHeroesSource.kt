@@ -1,20 +1,20 @@
-package com.example.borutoapp.data.paging_source.article
+package com.example.borutoapp.data.paging_source
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.borutoapp.data.remote.BorutoApi
-import com.example.borutoapp.domain.model.article.Article
+import com.example.borutoapp.domain.model.Hero
 import java.lang.Exception
 
-class SearchArticlesSource(
+class SearchHeroesSource(
     private val borutoApi: BorutoApi,
     private val query: String
-) : PagingSource<Int, Article>() {
+) : PagingSource<Int, Hero>() {
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Hero> {
         return try {
-            val apiResponse = borutoApi.searchArticles(name = query)
-            val heroes = apiResponse.data
+            val apiResponse = borutoApi.searchHeroes(name = query)
+            val heroes = apiResponse.heroes
             if (heroes.isNotEmpty()) {
                 LoadResult.Page(
                     data = heroes,
@@ -33,7 +33,7 @@ class SearchArticlesSource(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Article>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, Hero>): Int? {
         return state.anchorPosition
     }
 }

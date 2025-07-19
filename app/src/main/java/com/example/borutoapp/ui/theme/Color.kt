@@ -8,7 +8,6 @@ val Purple200 = Color(0xFFBB86FC)
 val Purple500 = Color(0xFF6200EE)
 val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
-val News500 = Color(0xFFedd0bc)
 
 val LightGray = Color(0xFFD8D8D8)
 val DarkGray = Color(0xFF2A2A2A)
@@ -54,8 +53,3 @@ val topAppBarContentColor: Color
 val topAppBarBackgroundColor: Color
     @Composable
     get() = if (isSystemInDarkTheme()) Color.Black else Purple500
-
-val newsBackgroundColor: Color
-    @Composable
-    get() = if (isSystemInDarkTheme()) Color.Black else News500
-

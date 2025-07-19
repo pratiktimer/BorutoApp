@@ -5,12 +5,10 @@ import com.example.borutoapp.data.repository.DataStoreOperationsImpl
 import com.example.borutoapp.data.repository.Repository
 import com.example.borutoapp.domain.repository.DataStoreOperations
 import com.example.borutoapp.domain.use_cases.UseCases
-import com.example.borutoapp.domain.use_cases.get_all_articles.GetAllArticlesUseCase
 import com.example.borutoapp.domain.use_cases.get_all_heroes.GetAllHeroesUseCase
 import com.example.borutoapp.domain.use_cases.get_selected_hero.GetSelectedHeroUseCase
 import com.example.borutoapp.domain.use_cases.read_onboarding.ReadOnBoardingUseCase
 import com.example.borutoapp.domain.use_cases.save_onboarding.SaveOnBoardingUseCase
-import com.example.borutoapp.domain.use_cases.search_articles.SearchArticlesUseCase
 import com.example.borutoapp.domain.use_cases.search_heroes.SearchHeroesUseCase
 import dagger.Module
 import dagger.Provides
@@ -38,10 +36,8 @@ object RepositoryModule {
             saveOnBoardingUseCase = SaveOnBoardingUseCase(repository),
             readOnBoardingUseCase = ReadOnBoardingUseCase(repository),
             getAllHeroesUseCase = GetAllHeroesUseCase(repository),
-            searchArticlesUseCase = SearchArticlesUseCase(repository),
-            getSelectedHeroUseCase = GetSelectedHeroUseCase(repository),
-            getAllArticlesUseCase = GetAllArticlesUseCase(repository),
-            searchHeroUseCase = SearchHeroesUseCase(repository)
+            searchHeroesUseCase = SearchHeroesUseCase(repository),
+            getSelectedHeroUseCase = GetSelectedHeroUseCase(repository)
         )
     }
 

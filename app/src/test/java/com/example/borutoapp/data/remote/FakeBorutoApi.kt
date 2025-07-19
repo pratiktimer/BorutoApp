@@ -1,8 +1,7 @@
 package com.example.borutoapp.data.remote
 
 import com.example.borutoapp.domain.model.ApiResponse
-import com.example.borutoapp.domain.model.article.Article
-import com.example.borutoapp.domain.model.hero.Hero
+import com.example.borutoapp.domain.model.Hero
 
 class FakeBorutoApi : BorutoApi {
 
@@ -48,27 +47,19 @@ class FakeBorutoApi : BorutoApi {
         )
     )
 
-    override suspend fun getAllHeroes(page: Int): ApiResponse<Hero> {
-        return ApiResponse<Hero>(
+    override suspend fun getAllHeroes(page: Int): ApiResponse {
+        return ApiResponse(
             success = false
         )
     }
 
-    override suspend fun searchHeroes(name: String): ApiResponse<Hero> {
+    override suspend fun searchHeroes(name: String): ApiResponse {
         val searchedHeroes = findHeroes(name = name)
         return ApiResponse(
             success = true,
             message = "ok",
-            data = searchedHeroes
+            heroes = searchedHeroes
         )
-    }
-
-    override suspend fun getAllArticles(page: Int): ApiResponse<Article> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun searchArticles(name: String): ApiResponse<Article> {
-        TODO("Not yet implemented")
     }
 
     private fun findHeroes(name: String): List<Hero> {

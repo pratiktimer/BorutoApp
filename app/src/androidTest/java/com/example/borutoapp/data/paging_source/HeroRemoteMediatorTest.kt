@@ -4,9 +4,8 @@ import androidx.paging.*
 import androidx.paging.RemoteMediator.*
 import androidx.test.core.app.ApplicationProvider
 import com.example.borutoapp.data.local.BorutoDatabase
-import com.example.borutoapp.data.paging_source.hero.HeroRemoteMediator
 import com.example.borutoapp.data.remote.FakeBorutoApi2
-import com.example.borutoapp.domain.model.hero.Hero
+import com.example.borutoapp.domain.model.Hero
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,7 +15,7 @@ import org.junit.Before
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class ArticleRemoteMediatorTest {
+class HeroRemoteMediatorTest {
 
     private lateinit var borutoApi: FakeBorutoApi2
     private lateinit var borutoDatabase: BorutoDatabase

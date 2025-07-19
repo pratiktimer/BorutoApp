@@ -1,4 +1,4 @@
-package com.example.borutoapp.data.paging_source.hero
+package com.example.borutoapp.data.paging_source
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
@@ -7,8 +7,8 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.borutoapp.data.local.BorutoDatabase
 import com.example.borutoapp.data.remote.BorutoApi
-import com.example.borutoapp.domain.model.hero.Hero
-import com.example.borutoapp.domain.model.hero.HeroRemoteKeys
+import com.example.borutoapp.domain.model.Hero
+import com.example.borutoapp.domain.model.HeroRemoteKeys
 
 @ExperimentalPagingApi
 class HeroRemoteMediator(
@@ -58,7 +58,7 @@ class HeroRemoteMediator(
             }
 
             val response = borutoApi.getAllHeroes(page = page)
-            if (response.data.isNotEmpty()) {
+            if (response.heroes.isNotEmpty()) {
                 borutoDatabase.withTransaction {
                     if (loadType == LoadType.REFRESH) {
                         heroDao.deleteAllHeroes()
@@ -66,7 +66,7 @@ class HeroRemoteMediator(
                     }
                     val prevPage = response.prevPage
                     val nextPage = response.nextPage
-                    val keys = response.data.map { hero ->
+                    val keys = response.heroes.map { hero ->
                         HeroRemoteKeys(
                             id = hero.id,
                             prevPage = prevPage,
@@ -75,7 +75,7 @@ class HeroRemoteMediator(
                         )
                     }
                     heroRemoteKeysDao.addAllRemoteKeys(heroRemoteKeys = keys)
-                    heroDao.addHeroes(heroes = response.data)
+                    heroDao.addHeroes(heroes = response.heroes)
                 }
             }
             MediatorResult.Success(endOfPaginationReached = response.nextPage == null)

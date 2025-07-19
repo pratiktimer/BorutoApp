@@ -51,7 +51,7 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.borutoapp.R
-import com.example.borutoapp.domain.model.hero.Hero
+import com.example.borutoapp.domain.model.Hero
 import com.example.borutoapp.presentation.components.InfoBox
 import com.example.borutoapp.presentation.components.OrderedList
 import com.example.borutoapp.ui.theme.EXPANDED_RADIUS_LEVEL
