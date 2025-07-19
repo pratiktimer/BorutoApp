@@ -2,9 +2,10 @@ package com.example.borutoapp.data.paging_source
 
 import androidx.paging.PagingSource.LoadParams
 import androidx.paging.PagingSource.LoadResult
+import com.example.borutoapp.data.paging_source.hero.SearchHeroesSource
 import com.example.borutoapp.data.remote.BorutoApi
 import com.example.borutoapp.data.remote.FakeBorutoApi
-import com.example.borutoapp.domain.model.Hero
+import com.example.borutoapp.domain.model.hero.Hero
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -13,7 +14,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @ExperimentalCoroutinesApi
-class SearchHeroesSourceTest {
+class SearchArticlesSourceTest {
 
     private lateinit var borutoApi: BorutoApi
     private lateinit var heroes: List<Hero>
@@ -116,7 +117,7 @@ class SearchHeroesSourceTest {
                 )
             )
 
-            val result = borutoApi.searchHeroes("").heroes
+            val result = borutoApi.searchHeroes("").data
 
             assertTrue { result.isEmpty() }
             assertTrue { loadResult is LoadResult.Page }
@@ -134,7 +135,7 @@ class SearchHeroesSourceTest {
                 )
             )
 
-            val result = borutoApi.searchHeroes("Unknown").heroes
+            val result = borutoApi.searchHeroes("Unknown").data
 
             assertTrue { result.isEmpty() }
             assertTrue { loadResult is LoadResult.Page }

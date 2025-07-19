@@ -5,12 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.borutoapp.domain.model.Hero
+import com.example.borutoapp.domain.model.hero.Hero
 import com.example.borutoapp.domain.use_cases.UseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,7 +30,7 @@ class SearchViewModel @Inject constructor(
 
     fun searchHeroes(query: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            useCases.searchHeroesUseCase(query = query).cachedIn(viewModelScope).collect {
+            useCases.searchHeroUseCase(query = query).cachedIn(viewModelScope).collect {
                 _searchedHeroes.value = it
             }
         }

@@ -1,4 +1,4 @@
-package com.example.borutoapp.domain.model
+package com.example.borutoapp.domain.model.hero
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
